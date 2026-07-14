@@ -1,79 +1,106 @@
-# xianzhu-skill
+# xianzhu-skill ✨
 
-> A Codex skill for systematic, auditable, and interpretation-first specification search in empirical economics.
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:2F6BFF,100:5CC8FF&height=170&section=header&text=xianzhu-skill&fontSize=42&fontColor=ffffff&animation=fadeIn&fontAlignY=36&desc=Specification%20search%20for%20empirical%20economics&descAlignY=57&descAlign=50" alt="xianzhu-skill header" />
+</p>
 
-`xianzhu-skill` is designed for the common situation where the research question is already fixed, but the researcher still needs a disciplined way to test admissible transformations, alternative measurements, and compatible estimation strategies around an existing `x -> y` relationship.
+<p align="center">
+  <img src="https://img.shields.io/badge/version-1.0.0-2F6BFF" alt="version" />
+  <img src="https://img.shields.io/badge/license-MIT-111827" alt="license" />
+  <img src="https://img.shields.io/badge/focus-empirical%20economics-0EA5E9" alt="focus" />
+  <img src="https://img.shields.io/badge/workflow-Stata--friendly-2563EB" alt="workflow" />
+  <img src="https://img.shields.io/badge/status-public%20release-16A34A" alt="status" />
+</p>
 
-Instead of encouraging blind p-hacking, the skill turns “try until it becomes more convincing” into a transparent workflow with explicit boundaries, experiment logs, and model-selection discipline.
+> 📌 A Codex skill for **systematic, auditable, and interpretation-first specification search** in empirical economics.
 
-## Version
+`xianzhu-skill` is built for a very common research situation:  
+**the question is already fixed, but the regression result is still not stable enough, not convincing enough, or not yet significant enough to write into the paper.**
 
-**Current release:** `1.0.0`
+Instead of encouraging blind p-hacking, this skill turns “keep trying around the same `x -> y` relationship” into a **disciplined empirical workflow** with:
 
-## What This Skill Is For
+- clear boundaries 🧭
+- admissible transformations 🔁
+- transparent experiment logs 🗂️
+- model-selection discipline 📐
+- manuscript-facing output logic 📝
 
-This skill is useful when the user says things like:
+---
+
+## 🌟 What This Skill Helps With
+
+Use `xianzhu-skill` when the user says things like:
 
 - “试到显著”
-- “换个口径试试” 
+- “换个口径试试”
 - “这个变量能不能做 `log` / `asinh` / `ln(x+1)`？”
 - “方向是对的，但不显著，怎么办？”
 - “别换研究问题，围绕当前方程继续试”
 
-Typical use cases include:
+Typical use cases:
 
 - improving the stability of an existing empirical result
 - exploring admissible transformations of the current treatment or outcome
 - deciding whether to keep the current proxy or move to a substitute measure
-- keeping a complete and auditable record of failed and retained specifications
-- producing manuscript-ready justification for why one specification is chosen over others
+- preserving a full audit trail of failed and retained specifications
+- preparing manuscript-ready justification for why one specification is preferred
 
-## Core Design Principles
+---
 
-`xianzhu-skill` is built around five principles:
+## 🧠 Core Philosophy
 
-1. **Fixed question first**  
-   The research question must already be known. The skill is not for inventing topics from scratch.
+This skill is intentionally narrow and method-conscious.
 
-2. **Current indicator before substitute indicator**  
-   It first searches transformations of the current variable, and only after that considers same-concept substitutes.
+### 1. Fixed question first
+The research question should already be known. This skill is **not** for inventing topics from scratch.
 
-3. **Interpretation before significance**  
-   A more significant result is not automatically a better result if its economic meaning becomes weaker.
+### 2. Current indicator before substitute indicator
+It first tests transformations of the **current variable**, and only after that considers same-concept substitutes.
 
-4. **Failure must be recorded**  
-   The workflow never hides failed specifications. Search logs are part of the output.
+### 3. Interpretation before significance
+A more significant result is **not automatically** a better result if its economic meaning becomes weaker.
 
-5. **Stata-friendly empirical workflow**  
-   The skill is designed to fit real economics projects where do-files, logs, and output tables must be reproducible and manuscript-ready.
+### 4. Failure must be recorded
+Failed specifications are not noise to be hidden; they are part of the empirical record.
 
-## Workflow Overview
+### 5. Stata-friendly workflow
+The skill is designed for real economics projects where do-files, logs, and output tables need to be reproducible and paper-ready.
 
-The main workflow in `SKILL.md` follows this logic:
+---
 
-1. Lock the boundary of the research question.
-2. Decide whether the search target is mainly `x`, `y`, or both.
-3. Choose a compatible method set.
-4. Search the current indicator first.
-5. Log every attempt.
-6. Only after current-indicator failure, consider substitute indicators.
-7. Return both a recommended specification and a full experiment log.
+## 🔄 Workflow at a Glance
 
-In practice, the skill distinguishes between two modes:
+```mermaid
+flowchart TD
+    A[Lock research question] --> B[Decide whether to search x, y, or both]
+    B --> C[Choose compatible estimation methods]
+    C --> D[Search current indicator first]
+    D --> E[Record every attempt]
+    E --> F{Current indicator fails?}
+    F -- No --> G[Recommend retained specification]
+    F -- Yes --> H[Consider same-concept substitute indicators]
+    H --> I[Compare interpretability, direction, and significance]
+    I --> G
+```
+
+In practice, the skill works in two modes:
 
 - **Mode A: identify then search**  
-  Use when the user has not fully fixed the exact variable or equation.
+  For cases where the exact variable or estimating equation is not yet fully fixed.
 
 - **Mode B: direct experiment**  
-  Use when the user already has an equation, result table, or do-file and just wants to keep pushing the same empirical question.
+  For cases where the user already has a regression equation, result table, or do-file and wants to keep pushing the same empirical question.
 
-## Repository Structure
+---
+
+## 🧰 Repository Structure
 
 ```text
 xianzhu-skill/
 ├── SKILL.md
 ├── README.md
 ├── LICENSE
+├── .gitignore
 ├── agents/
 │   └── openai.yaml
 ├── evals/
@@ -87,9 +114,11 @@ xianzhu-skill/
     └── transform-playbook.md
 ```
 
-## Reference Files
+---
 
-The repository includes several supporting references:
+## 📚 Reference Modules
+
+The repository includes several supporting reference files:
 
 - `references/method-menu.md`  
   A compact menu of admissible estimation approaches.
@@ -104,22 +133,26 @@ The repository includes several supporting references:
   Naming, do-file separation, and output/log conventions for Stata-based empirical work.
 
 - `references/case-examples.md`  
-  Reusable examples showing how the workflow should behave in real economics tasks.
+  Realistic cases showing how the workflow should behave in practice.
 
-## What This Skill Does Not Do
+---
 
-This skill is intentionally narrow. It does **not**:
+## 🚫 What This Skill Does *Not* Do
+
+This skill does **not**:
 
 - invent a research question from nothing
 - replace literature grounding
 - fabricate substitute variables without support
 - hide unsuccessful results
-- turn every “more significant” specification into the recommended one
+- equate “more significant” with “more publishable”
 - treat aggressive p-hacking as valid empirical work
 
-## Recommended Output Style
+---
 
-A successful run should usually produce:
+## ✅ Recommended Output Style
+
+A good run of `xianzhu-skill` should usually return:
 
 - mode identification (`Mode A` or `Mode B`)
 - the locked-in `x`, `y`, and method choice
@@ -129,7 +162,9 @@ A successful run should usually produce:
 - rejected specifications and reasons
 - a complete experiment log for reproducibility
 
-## Intended Audience
+---
+
+## 🎯 Intended Audience
 
 This repository is especially useful for:
 
@@ -138,6 +173,23 @@ This repository is especially useful for:
 - Stata-first regression projects
 - Codex users who need a specification-search skill with explicit methodological boundaries
 
-## License
+---
+
+## 🏷️ Suggested GitHub About
+
+If you want the repository About box to look complete, a good setup would be:
+
+**Description**  
+A Codex skill for systematic and auditable specification search in empirical economics.
+
+**Website**  
+Leave blank for now, unless you want to point it to a documentation page or personal site.
+
+**Topics**  
+`codex-skill`, `economics`, `empirical-economics`, `stata`, `regression`, `specification-search`, `research-workflow`
+
+---
+
+## 📄 License
 
 MIT
