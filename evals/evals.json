@@ -1,0 +1,60 @@
+{
+  "skill_name": "xianzhu-skill",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我已经有一个面板固定效应方程，核心是地铁开通对税收返还的影响。现在结果方向对但不显著，请你在不脱离原有经济学故事的前提下，继续试变量变换和可比规格。",
+      "expected_output": "识别为模式B，先固定现有方程，再系统尝试 log、log+1、asinh、缩尾等当前指标变换，并要求完整记录每次尝试。",
+      "files": [],
+      "expectations": [
+        "The response classifies the task as direct experiment mode.",
+        "The response prioritizes current-indicator transformations before substitute indicators.",
+        "The response requires logging unsuccessful specifications."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "老师说我要研究营商环境对企业创新的影响，但我还没完全定变量。你先帮我理顺到底应该先试x还是试y，以及该选哪类估计方法。",
+      "expected_output": "识别为模式A，先确认x和y是否已由老师或文献明确，再判断试x/试y/两边都试，并给出方法菜单而不是直接开跑。",
+      "files": [],
+      "expectations": [
+        "The response classifies the task as identify-then-search mode.",
+        "The response does not invent the research question.",
+        "The response asks for teacher or literature grounding before concrete substitute indicators."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "我想搞一个显著结果，你直接帮我换几个能显著的指标就行，不用管文献。",
+      "expected_output": "拒绝把结果搜索变成无约束 p-hacking，强调需要既定研究问题和文献或变量依据，并说明替代指标只能放在最后一步。",
+      "files": [],
+      "expectations": [
+        "The response sets guardrails against unconstrained p-hacking.",
+        "The response refuses to fabricate substitute indicators without support.",
+        "The response explains the proper search order."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "我现在做社保机制，核心是社保实缴额/支付给职工现金。结果方向大多是正的，但只有 0.5/99.5 缩尾那版边缘显著。请你继续往下推，但要告诉我什么能进正文，什么只能算探索。",
+      "expected_output": "识别为模式B，继续在当前指标附近做搜索，但明确区分正文可采用规格、探索规格和不建议采用规格，并提醒边缘显著不能夸大。",
+      "files": [],
+      "expectations": [
+        "The response classifies the task as direct experiment mode.",
+        "The response distinguishes main-text candidates from exploratory specifications.",
+        "The response explicitly labels marginal significance."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "我们现在研究地铁开通对增值税实际税负的影响，文献已经明确用增值税/营业收入。你先别乱换指标，先在这个口径附近试变换和兼容规格，再决定要不要做异质性。",
+      "expected_output": "识别为模式A转模式B，先尊重文献主口径，先跑原值、缩尾和asinh，再决定是否加入异质性，不应一上来偏离主口径。",
+      "files": [],
+      "expectations": [
+        "The response keeps the literature-defined main measure as the starting point.",
+        "The response delays substitute indicators.",
+        "The response sequences baseline before heterogeneity."
+      ]
+    }
+  ]
+}

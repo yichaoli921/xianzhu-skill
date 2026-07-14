@@ -1,0 +1,3 @@
+display_name: 显著 Skill
+short_description: Economics-first specification search for clearer, stabler, and sometimes more significant regression results.
+default_prompt: 在既定经济学问题下，系统试变量口径、变换和估计方法，并完整记录每一次尝试。
