@@ -1,10 +1,10 @@
 ---
 name: xianzhu-skill
 description: Use when the user wants to diagnose, stabilize, or improve empirical significance in an economics project under a fixed research question. Trigger whenever the user says things like "试到显著", "换口径", "调参", "试模型", "为什么不显著", "结果方向对但不显著怎么办", or needs a structured search path across x, y, sample, fixed effects, event-study alignment, controls, and admissible specification search. Do not use this skill to invent the research question itself, to fabricate substitute indicators without support, or to hide unsuccessful attempts.
-version: 2.0.0
+version: 2.0.1
 ---
 
-# 经济学显著 Skill 2.0.0
+# 经济学显著 Skill 2.0.1
 
 ## 目标
 这个 skill 的目标不是“强行做显著”，而是把一个已经有明确经济学问题的经验结果，放进一套**有顺序、可留痕、可停机、可解释**的规格搜索流程里。
@@ -63,15 +63,90 @@ version: 2.0.0
 
 ## 标准工作流
 
-### Step 0. 先判断这个题还值不值得救
+### Step 0. 先判断这个题还值不值得救（v2.0.1 起为硬纪律）
 
-在试显著之前，先回答：
+在试显著之前，先**机械跑完 4 层 pre-flight 检查**，任何一层失败都必须先处置，再决定是否进入 7 轮顺序。
 
-- 这个题在制度背景上是否仍然成立？
-- 数据口径是否与新政策、新法律、新平台规则直接冲突？
-- 如果结果做出来，是否会产生明显的法律、伦理或职业风险？
+**4 层顺序硬纪律**：L1 数据可达 → L2 操作可达 → L3 制度/法律/平台规则 → L4 伦理/风险。**不可乱序、不可跳过、不可合并**。
 
-如果这里已经不成立，应该封存，而不是继续试显著。
+#### L1 · 数据可达
+
+- 项目根 / `raw/` / `tmp/` 目录存在
+- 关键 `.dta` / `.csv` 文件**大小 > 0**
+- 用 `mcp__stata-mcp__get_data_info` 或 `pandas.read_stata` 能正确打开
+- 行数与既有 `data_manifest.md` / `data_card.md` 一致
+- 数据库账号（CSMAR / Wind / CNRDS / RESSET）最近下载距今 ≤ 90 天
+
+**L1 失败 = 直接封存**（写 `STOP_step0_L1.md` + 标 `hard_fail`），不进入 L2。
+
+#### L2 · 操作可达
+
+- Stata 可执行（`which stata` 或 `which StataMP`）
+- Stata 许可证有效（`stata -q -e do` 能跑空脚本）
+- MCP 通道可连（如用了 `mcp__stata-mcp`）
+- Python ≥ 3.10 且 `pandas / numpy / linearmodels / pyfixest / statsmodels` 装好
+- 远程计算资源（如 SSH 到学校服务器）可达
+
+**L2 失败 = 直接封存**（写 `STOP_step0_L2.md` + 标 `hard_fail`），不进入 L3。
+
+#### L3 · 制度 / 法律 / 平台规则（允许 `WebSearch` / `WebFetch`）
+
+按"由近到远"逐项检查：
+
+1. **直接相关政策**（中央 / 部委官方文件）：
+   - 关键词模板：`<研究主题> + <实施年份> + "政策" OR "通知" OR "办法" OR "意见"`
+   - 来源：中国政府网 `https://www.gov.cn/zhengce/`、各部委官网
+2. **数据源状态**（CSMAR / Wind / CNRDS / RESSET / CNINFO / HKEX）：
+   - 关键词模板：`<数据库名> + "维护" OR "下线" OR "停售" OR "数据更新"`
+3. **平台规则**（若用了爬虫 / 开放平台数据：微博 / 知乎 / 小红书 / 抖音 / 快手 / B 站 / 微信公众号 / 百度）：
+   - 关键词模板：`<平台名> + "用户协议" OR "开放平台" OR "数据合规"`
+4. **法律修订**（《统计法》《数据安全法》《个人信息保护法》《网络安全法》《反垄断法》《公司法》《证券法》）：
+   - 关键词模板：`法律名 + "修订" OR "施行" OR "发布"`
+   - 来源：国家法律法规数据库 `https://flk.npc.gov.cn/`
+5. **学术伦理 / 撤稿**（Retraction Watch、中国科学院文献情报中心）
+6. **国际制裁 / 出口管制**（如数据涉及境外实体）
+
+**调用规则**：每条 WebSearch / WebFetch 查询必须包含**时间锚**（年 + 月 + 关键词）；
+搜索结果要写进 `step0-audit.md` 的 L3 段，附 5 个以内最权威来源链接。
+
+**L3 冲突候选**（如数据已下线 / 法律禁止 / 方法已被撤稿）= **回写用户，等明确意向**，不擅自决定。
+
+**L3 搜索结果不足** = 进入 L4，**不视为失败**。
+
+#### L4 · 伦理 / 风险（自我审阅 + 回问用户）
+
+红线清单（任一打勾 → 询问用户并要求文字确认）：
+
+- [ ] 题目涉及**特定群体**的歧视性结论（性别 / 民族 / 地区 / 行业 / 信仰）
+- [ ] 题目结论若成立，会触发**法律风险**（如证明某群体系统性违规）
+- [ ] 数据来源**未经授权**或**明显违规获取**
+- [ ] 与**已撤稿 / 已更正**的方法步骤实质重合
+- [ ] 题目在**现行法规**下属于禁谈（如非法行业）
+- [ ] 题目要求**绕过**已生效的隐私 / 个人信息保护规定
+
+**L4 红线打勾 = 询问用户并要求文字确认**。
+用户拒绝 → 封存（同 L1/L2）。
+用户继续 → 进入 7 轮顺序，但在 `step0-audit.md` 保留"用户书面确认"快照作为留痕。
+
+#### Step 0 输出：step0-audit.md
+
+每跑一次 Step 0 都要在 `output/审计/step0_<时间戳>.md` 写一份审计报告，包含：
+
+- 项目名 / 时间戳 / 跑 Step 0 的一方 / 最终结果
+- L1 / L2 / L3 / L4 四段的"检了什么 + 命令输出 + 结论"
+- 决策记录（进入 7 轮顺序 / 封存 / 等用户回话）
+
+#### 何时**重新跑 Step 0**
+
+满足以下任一，重新跑：
+
+- 研究主题变了
+- 数据源换了
+- 主要被解释 / 处理变量定义换了
+- 法律法规 / 平台规则发生变化
+- 距上次 Step 0 跑过已经超过 90 天
+
+> 📖 完整机械可执行清单见 [`references/step0-checklist.md`](references/step0-checklist.md)。
 
 ### Step 1. 锁定研究问题与 `x/y`
 
@@ -295,6 +370,10 @@ version: 2.0.0
 - 停机规则：`references/stop-rules.md`
 - Stata 协作输出规范：`references/stata-collab-template.md`
 
+本次 2.0.1 版本新增了一份配套参考：
+
+- Step 0 机械可执行清单：`references/step0-checklist.md` ⭐（与 SKILL.md 的 Step 0 段同步；包含 4 层动作清单 + 中国常见官方源速查表 + step0-audit.md 输出模板）
+
 ## 需要按需读取的参考文件
 
 - 选择方法时读：`references/method-menu.md`
@@ -306,3 +385,4 @@ version: 2.0.0
 - 想按顺序执行显著性搜索时读：`references/attempt-ladder.md`
 - 想判断什么时候该停时读：`references/stop-rules.md`
 - 需要把结果嵌入双代理 Stata 协作流程时读：`references/stata-collab-template.md`
+- 跑 7 轮顺序**之前**先读：`references/step0-checklist.md`（机械可执行的 4 层 pre-flight 清单）

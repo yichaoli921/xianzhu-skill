@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-2.0.0-2F6BFF" alt="version" />
+  <img src="https://img.shields.io/badge/version-2.0.1-2F6BFF" alt="version" />
   <img src="https://img.shields.io/badge/license-MIT-111827" alt="license" />
   <img src="https://img.shields.io/badge/focus-empirical%20economics-0EA5E9" alt="focus" />
   <img src="https://img.shields.io/badge/workflow-Stata--friendly-2563EB" alt="workflow" />
@@ -24,9 +24,25 @@
 
 ---
 
-## 🌟 本版本更新亮点（v2.0.0）
+## 🌟 本版本更新亮点（v2.0.1 增量）
 
 > 每发一版就把这一段换成最新的；要查历史变更看 [CHANGELOG](CHANGELOG.md)。
+
+相对于 v2.0.0，v2.0.1 是**配套明细补丁**：把原本一句"先判断题目还能不能做"展开成**4 层硬纪律 + 可机械执行的命令清单**。
+
+| # | 增量 | 体现在 |
+|---|---|---|
+| 1 | **Step 0 拆成 4 层** | L1 数据可达 → L2 操作可达 → L3 制度/法律/平台规则 → L4 伦理/风险；每层有独立"失败语义"（L1/L2 直接封存，L3/L4 询问用户） |
+| 2 | **L3 显式允许 `WebSearch` / `WebFetch`** | 中央 / 部委 / 数据库 / 平台 / 法律 / 撤稿 各有 URL 速查表；每条搜索必须包含**时间锚** |
+| 3 | **新增 `references/step0-checklist.md`** | 4 层的命令模板（Bash + WebSearch 规范）、中国常见官方源速查表、`step0-audit.md` 输出模板 |
+| 4 | **Step 0 失败要写 `step0_<时间戳>.md`** | 进 `output/审计/`；30 天内可复用 L1/L2 但 L3 必跑 |
+| 5 | **硬纪律补到 `SKILL.md` 协议本体** | 4 层顺序硬性、不可乱序 / 跳过 / 合并；何时重新跑 Step 0 列出 5 条触发条件 |
+
+v2.0.1 是**向前兼容**的补丁：旧调用方式（"先判断题目能不能做"）依然成立，只是现在能**逐层机械跑完**。
+
+---
+
+## 🌟 上一版更新亮点（v2.0.0 基线）
 
 相对于 v1.0.0，v2.0.0 **真正新增的不是 reference 文档数量，是工作流的结构性升级**：
 
@@ -92,6 +108,7 @@ flowchart TD
 - 数据是否还能继续获得（数据源改版 / 论文撤稿 / 数据库下架）
 - 题目本身是否有**不可调和的硬约束**（如法规明确禁止讨论）
 - **任一项为真 → 直接封存，不进入显著性流程**
+- ⭐ v2.0.1 起拆成 **4 层硬纪律**（L1 数据可达 / L2 操作可达 / L3 制度·法律·平台 / L4 伦理·风险），详见 [`references/step0-checklist.md`](references/step0-checklist.md)
 
 ### 第 1 轮：自然基准
 - 用最自然的 Y、最自然的分母、最自然的 FE、最自然的聚类
@@ -185,6 +202,7 @@ xianzhu-skill/
     ├── stata-collab-template.md   ← Stata 协作输出规范
     ├── stata-output-conventions.md← Stata 文件 / do / 输出约定
     ├── stop-rules.md              ← 停机规则（七轮顺序里贯穿的硬条件）
+    ├── step0-checklist.md         ← Step 0 机械可执行清单（L1 数据 / L2 操作 / L3 制度 / L4 伦理，4 层硬纪律）
     └── transform-playbook.md      ← 变换剧本（log / asinh / winsor / 离散化 ...）
 ```
 
@@ -196,6 +214,8 @@ xianzhu-skill/
 
 - `references/stop-rules.md` ⭐  
   七轮顺序里"该停"的硬条件；遇到任意一条立即封存或回滚。
+- `references/step0-checklist.md` ⭐  
+  Step 0 机械可执行清单：L1 数据可达 / L2 操作可达 / L3 制度·法律·平台 / L4 伦理·风险；含命令模板 + 中国官方源速查表 + step0-audit.md 模板。
 - `references/attempt-ladder.md` ⭐  
   显著性尝试的层级清单，从"要不要救这条结果"开始判断。
 - `references/stata-collab-template.md` ⭐  
