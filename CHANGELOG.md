@@ -7,6 +7,38 @@
 
 ---
 
+## [2.0.2] - 2026-08-12
+
+### Added
+- **"苏格拉底式提问协议"** 作为过程质量门（软纪律）：
+  写进 `SKILL.md` 总章 + 每个 Step 之前嵌入 3 个最关键问题。
+- **新增 `references/socratic-prompts.md` ⭐**：每 Step 6-10 问 +
+  跨 Step 通用 5 问，每问三段式（Q / 为什么 / 怎么答 / 失败模式），
+  推荐留痕格式（沟通记录.md / spec-log / step0-audit.md）。
+- **每 Step 之前的"📝 推荐先问"段**：Step 0/1/2/3/4/5/5.5/6/7/8 全部嵌入。
+- **协议强度声明**：软纪律——不阻塞执行、不要求全部答完才能进入下一步，
+  推荐在沟通记录里留"我刚问了自己：…… 答：……"。
+
+### Changed
+- `SKILL.md` frontmatter `version: 2.0.1 → 2.0.2`，标题同步。
+- `README.md` 徽章 `2.0.1 → 2.0.2`，"本版本更新亮点"段改成
+  v2.0.2 增量 + v2.0.1 增量 + v2.0.0 基线三段并列保留。
+- `README.md` 仓库结构与参考模块清单加入 `socratic-prompts.md`，标 ⭐。
+- 新增/修改段：
+  - SKILL.md "苏格拉底式提问协议" 总章
+  - SKILL.md 每个 Step 之前的"📝 推荐先问"3 问
+  - SKILL.md "新增参考文件" 段加入 `socratic-prompts.md`
+  - SKILL.md "需要按需读取的参考文件" 段加入 `socratic-prompts.md`
+
+### Notes
+- v2.0.2 是**向前兼容补丁**：旧调用方式（直接跑规格）依然成立。
+- 与"硬边界 / 三轮停机"互补：前两者是"该不该跑"和"结果异常"的硬纪律；
+  苏格拉底是"过程清醒"的软纪律。
+- 与 [`cc-codex-collaboration-skill v2.0.0`](https://github.com/yichaoli921/cc-codex-collaboration-skill) 的
+  命名顺序 / 状态词 / 文件夹架构保持一致。
+
+---
+
 ## [2.0.1] - 2026-08-12
 
 ### Added

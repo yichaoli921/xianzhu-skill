@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-2.0.1-2F6BFF" alt="version" />
+  <img src="https://img.shields.io/badge/version-2.0.2-2F6BFF" alt="version" />
   <img src="https://img.shields.io/badge/license-MIT-111827" alt="license" />
   <img src="https://img.shields.io/badge/focus-empirical%20economics-0EA5E9" alt="focus" />
   <img src="https://img.shields.io/badge/workflow-Stata--friendly-2563EB" alt="workflow" />
@@ -24,9 +24,26 @@
 
 ---
 
-## 🌟 本版本更新亮点（v2.0.1 增量）
+## 🌟 本版本更新亮点（v2.0.2 增量）
 
 > 每发一版就把这一段换成最新的；要查历史变更看 [CHANGELOG](CHANGELOG.md)。
+
+相对于 v2.0.1，v2.0.2 是**过程质量门补丁**：把"每一步该想什么"做成**苏格拉底式提问协议**——既帮助 AI（CC）显式暴露假设，也帮助使用者主动梳理自己当前的认识。
+
+| # | 增量 | 体现在 |
+|---|---|---|
+| 1 | **新增"苏格拉底式提问协议"总章** | 在 SKILL.md 加一节（在"何时不要直接用"之后），讲清为什么需要 / 协议强度（软纪律）/ 通用模板 / 与三轮停机的关系 |
+| 2 | **每个 Step 之前嵌入 3 个最关键问题** | Step 0/1/2/3/4/5/5.5/6/7/8 都嵌入"📝 推荐先问"，附完整追问清单链接 |
+| 3 | **新增 `references/socratic-prompts.md`** ⭐ | 完整问题清单（每 Step 6-10 问 + 跨 Step 通用 5 问）；每问含 Q / 为什么 / 怎么答 / 失败模式 + 推荐留痕格式 |
+| 4 | **每问三段式**：Q / 为什么 / 怎么答 / 失败模式 | 不止"问问题"，而是"问题 + 跳过它的风险 + 怎么答 + 答错了会怎样" |
+| 5 | **与"硬边界 / 三轮停机"互补** | 前两者是"该不该跑"和"结果异常"的硬纪律；苏格拉底是"过程清醒"的软纪律 |
+
+v2.0.2 是**向前兼容补丁**：旧调用方式（直接跑规格）依然成立，
+只是现在每步之前**多了一道"问自己"的工序**，推荐在 `沟通记录.md` 里留痕。
+
+---
+
+## 🌟 上一版更新亮点（v2.0.1 增量）
 
 相对于 v2.0.0，v2.0.1 是**配套明细补丁**：把原本一句"先判断题目还能不能做"展开成**4 层硬纪律 + 可机械执行的命令清单**。
 
@@ -203,6 +220,7 @@ xianzhu-skill/
     ├── stata-output-conventions.md← Stata 文件 / do / 输出约定
     ├── stop-rules.md              ← 停机规则（七轮顺序里贯穿的硬条件）
     ├── step0-checklist.md         ← Step 0 机械可执行清单（L1 数据 / L2 操作 / L3 制度 / L4 伦理，4 层硬纪律）
+    ├── socratic-prompts.md        ← 苏格拉底式提问协议（每 Step 6-10 问 + 跨 Step 通用 5 问，含 Q / 为什么 / 怎么答 / 失败模式）
     └── transform-playbook.md      ← 变换剧本（log / asinh / winsor / 离散化 ...）
 ```
 
@@ -216,6 +234,8 @@ xianzhu-skill/
   七轮顺序里"该停"的硬条件；遇到任意一条立即封存或回滚。
 - `references/step0-checklist.md` ⭐  
   Step 0 机械可执行清单：L1 数据可达 / L2 操作可达 / L3 制度·法律·平台 / L4 伦理·风险；含命令模板 + 中国官方源速查表 + step0-audit.md 模板。
+- `references/socratic-prompts.md` ⭐  
+  苏格拉底式提问协议（完整清单）：每 Step 之前 6-10 个关键问题，每问含 Q / 为什么 / 怎么答 / 失败模式 + 推荐留痕格式。软纪律——不阻塞执行，但推荐留痕。
 - `references/attempt-ladder.md` ⭐  
   显著性尝试的层级清单，从"要不要救这条结果"开始判断。
 - `references/stata-collab-template.md` ⭐  
